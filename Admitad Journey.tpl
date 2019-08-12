@@ -167,7 +167,8 @@ ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
 /* 
 Admitad Journey template
-pinus-dev team © 2019, Admitad GmbH.
+Copyright © 2019, Admitad GmbH.
+Authors: Aleksandr Kolodkin, Maxim Smirnov
 */
 
 const queryPermission = require('queryPermission');
@@ -200,4 +201,4 @@ data.gtmOnSuccess();
 
 ___NOTES___
 
-Created on 12.08.2019, 15:51:59
+Created on 12.08.2019, 17:45:01
