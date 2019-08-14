@@ -22,24 +22,51 @@ ___TEMPLATE_PARAMETERS___
 
 [
   {
+    "help": "Your Admitad campaign_code",
+    "valueValidators": [
+      {
+        "args": [
+          "[a-f0-9]{10}"
+        ],
+        "type": "REGEX"
+      },
+      {
+        "type": "NON_EMPTY"
+      }
+    ],
+    "displayName": "campaign_code",
+    "simpleValueType": true,
+    "name": "campaign_code",
+    "type": "TEXT"
+  },
+  {
+    "valueValidators": [
+      {
+        "type": "NON_EMPTY"
+      }
+    ],
     "displayName": "accountId",
     "simpleValueType": true,
     "name": "accountId",
     "type": "TEXT"
   },
   {
-    "displayName": "broker",
-    "simpleValueType": true,
-    "name": "broker",
-    "type": "TEXT"
-  },
-  {
+    "valueValidators": [
+      {
+        "type": "NON_EMPTY"
+      }
+    ],
     "displayName": "category",
     "simpleValueType": true,
     "name": "category",
     "type": "TEXT"
   },
   {
+    "valueValidators": [
+      {
+        "type": "NON_EMPTY"
+      }
+    ],
     "displayName": "orderNumber",
     "simpleValueType": true,
     "name": "orderNumber",
@@ -52,21 +79,36 @@ ___TEMPLATE_PARAMETERS___
     "type": "TEXT"
   },
   {
+    "valueValidators": [
+      {
+        "type": "NON_EMPTY"
+      }
+    ],
     "displayName": "transactionProducts",
     "simpleValueType": true,
     "name": "transactionProducts",
     "type": "TEXT"
   },
   {
-    "displayName": "campaign_code",
+    "valueValidators": [
+      {
+        "type": "NON_EMPTY"
+      }
+    ],
+    "displayName": "suid",
     "simpleValueType": true,
-    "name": "campaign_code",
+    "name": "suid",
     "type": "TEXT"
   },
   {
-    "displayName": "action_code",
+    "valueValidators": [
+      {
+        "type": "NON_EMPTY"
+      }
+    ],
+    "displayName": "user_agent",
     "simpleValueType": true,
-    "name": "action_code",
+    "name": "user_agent",
     "type": "TEXT"
   }
 ]
@@ -265,6 +307,10 @@ ___WEB_PERMISSIONS___
               {
                 "type": 1,
                 "string": "tagtag_aid"
+              },
+              {
+                "type": 1,
+                "string": "deduplication_cookie"
               }
             ]
           }
@@ -329,6 +375,26 @@ if (queryPermission('get_cookies', 'tagtag_aid')) {
 
 logToConsole('tagtag_uid from cookie = ', tagtag_uid);
 
+let broker = 'na';
+if (queryPermission('get_cookies', 'deduplication_cookie')) {
+  let deduplication_cookie = getCookieValues('deduplication_cookie');
+  if (deduplication_cookie.length > 0) {
+    deduplication_cookie = deduplication_cookie[0];
+  } else {
+    deduplication_cookie = undefined;
+  }
+  
+  switch (deduplication_cookie) {
+    case 'admitad': 
+      broker = 'adm'; break;
+    case undefined:
+      broker = 'na'; break;
+    default:
+      broker = deduplication_cookie;
+  }
+}
+
+
 let positions = data.transactionProducts;
 if (positions) {
   for (let i = 0; i < positions.length; ++i) {
@@ -338,7 +404,7 @@ if (positions) {
       'payment_type': 'sale',
       'uid': tagtag_uid || '',
       'campaign_code': data.campaign_code || '',
-      'channel': data.broker || '',
+      'channel': broker || '',
       'order_id': data.orderNumber || '',
       'action_code': data.category || '',
       'promocode': data.promocode || '',
@@ -349,6 +415,8 @@ if (positions) {
       'quantity': positions[i].quantity || 1,
       'currency_code': positions[i].priceCurrency || '',
       'product_id': positions[i].sku || '',
+      'suid': data.suid,
+      'action_useragent': data.user_agent
     };
 
     pixelDomains.forEach((domain) => {
@@ -371,4 +439,4 @@ data.gtmOnSuccess();
 
 ___NOTES___
 
-Created on 12.08.2019, 17:45:10
+Created on 14.08.2019, 16:51:38

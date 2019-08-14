@@ -20,7 +20,74 @@
 
 ___TEMPLATE_PARAMETERS___
 
-[]
+[
+  {
+    "help": "Your Admitad campaign_code",
+    "valueValidators": [
+      {
+        "args": [
+          "[a-f0-9]{10}"
+        ],
+        "type": "REGEX"
+      },
+      {
+        "type": "NON_EMPTY"
+      }
+    ],
+    "displayName": "campaign_code",
+    "simpleValueType": true,
+    "name": "campaign_code",
+    "type": "TEXT"
+  },
+  {
+    "valueValidators": [
+      {
+        "type": "NON_EMPTY"
+      }
+    ],
+    "displayName": "accountId",
+    "simpleValueType": true,
+    "name": "accountId",
+    "type": "TEXT"
+  },
+  {
+    "valueValidators": [
+      {
+        "type": "NON_EMPTY"
+      }
+    ],
+    "displayName": "suid",
+    "simpleValueType": true,
+    "name": "suid",
+    "type": "TEXT"
+  },
+  {
+    "displayName": "Enable deduplication",
+    "simpleValueType": true,
+    "name": "deduplication_enabled",
+    "checkboxText": "Enable deduplication",
+    "type": "CHECKBOX"
+  },
+  {
+    "enablingConditions": [
+      {
+        "paramName": "deduplication_enabled",
+        "type": "EQUALS",
+        "paramValue": true
+      }
+    ],
+    "valueValidators": [
+      {
+        "type": "NON_EMPTY"
+      }
+    ],
+    "displayName": "deduplication GET-param",
+    "defaultValue": "utm_source",
+    "simpleValueType": true,
+    "name": "channel",
+    "type": "TEXT"
+  }
+]
 
 
 ___WEB_PERMISSIONS___
@@ -102,6 +169,53 @@ ___WEB_PERMISSIONS___
                     "string": "any"
                   }
                 ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "name"
+                  },
+                  {
+                    "type": 1,
+                    "string": "domain"
+                  },
+                  {
+                    "type": 1,
+                    "string": "path"
+                  },
+                  {
+                    "type": 1,
+                    "string": "secure"
+                  },
+                  {
+                    "type": 1,
+                    "string": "session"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "deduplication_cookie"
+                  },
+                  {
+                    "type": 1,
+                    "string": "*"
+                  },
+                  {
+                    "type": 1,
+                    "string": "*"
+                  },
+                  {
+                    "type": 1,
+                    "string": "any"
+                  },
+                  {
+                    "type": 1,
+                    "string": "any"
+                  }
+                ]
               }
             ]
           }
@@ -124,7 +238,7 @@ ___WEB_PERMISSIONS___
           "key": "queriesAllowed",
           "value": {
             "type": 1,
-            "string": "specific"
+            "string": "any"
           }
         },
         {
@@ -135,22 +249,62 @@ ___WEB_PERMISSIONS___
           }
         },
         {
-          "key": "queryKeys",
+          "key": "query",
+          "value": {
+            "type": 8,
+            "boolean": true
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "get_cookies",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "cookieNames",
           "value": {
             "type": 2,
             "listItem": [
               {
                 "type": 1,
-                "string": "tagtag_uid"
+                "string": "tagtag_aid"
               }
             ]
           }
-        },
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "send_pixel",
+        "versionId": "1"
+      },
+      "param": [
         {
-          "key": "query",
+          "key": "urls",
           "value": {
-            "type": 8,
-            "boolean": true
+            "type": 2,
+            "listItem": [
+              {
+                "type": 1,
+                "string": "https://artfut.com/"
+              }
+            ]
           }
         }
       ]
@@ -175,25 +329,84 @@ const queryPermission = require('queryPermission');
 const logToConsole = require('logToConsole');
 const setCookie = require('setCookie');
 const getQueryParameters = require('getQueryParameters');
+const generateRandom = require('generateRandom');
+const sendPixel = require('sendPixel');
+const getCookieValues = require('getCookieValues');
+const encodeUriComponent = require('encodeUriComponent');
 
+const pixelDomains = ['artfut.com'];
+
+const cookie_options = {
+  'domain': 'auto',
+  'path': '/',
+  'max-age': 60 * 60 * 24 * 90,
+  'secure': true
+};
+
+// process clickid
 let tagtag_uid;
-
 if (queryPermission('get_url', 'query', 'tagtag_uid')) {
   tagtag_uid = getQueryParameters('tagtag_uid');
   logToConsole('tagtag_uid from query = ', tagtag_uid);
 }
 
 if (tagtag_uid !== undefined) {
-  const cookie_options = {
-    'domain': 'auto',
-    'path': '/',
-    'max-age': 60 * 60 * 24 * 90,
-    'secure': true
-  };
-
   if (queryPermission('set_cookies', 'tagtag_aid', cookie_options)) {
     setCookie('tagtag_aid', tagtag_uid, cookie_options);
   }
+}
+
+if (queryPermission('get_cookies', 'tagtag_aid')) {
+  tagtag_uid = getCookieValues('tagtag_aid');
+  if (tagtag_uid.length > 0) {
+    tagtag_uid = tagtag_uid[0];
+  } else {
+    tagtag_uid = undefined;
+  }
+}
+
+// process deduplication channel
+let broker;
+if (data.deduplication_enabled) {
+  if (queryPermission('get_url', 'query', data.channel)) {
+    broker = getQueryParameters(data.channel);
+  	logToConsole('broker from query = ', broker);
+  }
+}
+else {
+  broker = 'adm';
+}
+
+if (broker !== undefined && broker !== '') {
+  if (queryPermission('set_cookies', 'deduplication_cookie', cookie_options)) {
+    logToConsole('broker cookie = ', broker);
+    setCookie('deduplication_cookie', broker, cookie_options);
+  }
+}
+
+
+// process accountId
+if (data.accountId) {  
+  logToConsole('accountId = ', data.accountId);
+  let params = {
+    'suid': data.suid || '',
+    'hash': data.accountId,
+    'uid': tagtag_uid || '',
+    'campaign_code': data.campaign_code || '',
+    'collectFrom': 1,
+  };
+  pixelDomains.forEach((domain) => {
+    params.domain = domain;
+
+    let paramsList = [];
+    for (let p in params) {
+      paramsList.push(encodeUriComponent(p.toString()) + "=" + encodeUriComponent(params[p].toString()));
+    }
+
+    const url = 'https://' + domain + '/linking/?' + paramsList.join("&");
+    logToConsole('sendPixel: ', url);
+    sendPixel(url);
+  });
 }
 
 data.gtmOnSuccess();
@@ -201,4 +414,4 @@ data.gtmOnSuccess();
 
 ___NOTES___
 
-Created on 12.08.2019, 17:45:01
+Created on 14.08.2019, 17:06:05
