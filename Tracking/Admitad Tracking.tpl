@@ -45,17 +45,6 @@ ___TEMPLATE_PARAMETERS___
         "type": "NON_EMPTY"
       }
     ],
-    "displayName": "accountId",
-    "simpleValueType": true,
-    "name": "accountId",
-    "type": "TEXT"
-  },
-  {
-    "valueValidators": [
-      {
-        "type": "NON_EMPTY"
-      }
-    ],
     "displayName": "category",
     "simpleValueType": true,
     "name": "category",
@@ -439,4 +428,4 @@ data.gtmOnSuccess();
 
 ___NOTES___
 
-Created on 14.08.2019, 16:51:38
+Created on 19.08.2019, 10:43:37

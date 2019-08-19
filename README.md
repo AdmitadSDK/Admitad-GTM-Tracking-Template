@@ -3,11 +3,37 @@
 ## Table of contents
 
 * [Overview](#overview)
+* [Contents](#contents)
+* [Installation](#installation)
 * [License](#license)
 
 ## <a id="overview"></a>Overview
 
-Admitad tracking code template integration
+Admitad Tracking Template for Google Tag Manager provides easy-driven integration with [Admitad](https://www.admitad.com/en/).  
+This template tracks users’ actions on your website and sends the data to the Admitad statistics.  
+When the template fires, the Admitad server receives a request with the information on this action (order ID, order amount, etc.).
+
+For more on the Admitad tracking code, see [here](https://help.admitad.com/en/advertiser/topic/227-installing-admitad-tracking-code-in-google-tag-manager#purpose).
+
+## <a id="contents"></a>Contents
+
+Admitad Tracking Template consists of two mandatory parts:
+* [Journey template](./Journey)
+* [Tracking template](./Tracking)
+
+Both templates should be [installed](#installation) and configured as described in the corresponding manual.  
+Otherwise, the high quality of tracking `is not guaranteed`. 
+
+## <a id="installation"></a>Installation
+
+1. Download the `.tpl` file
+2. Create a new tag template in the Templates menu
+
+    ![templates_menu](./images/templates_menu.png)
+
+3. Import the `.tpl` file
+
+    ![import_template](./images/import_template.png)
 
 ## <a id="license"></a>License
 
