@@ -1,4 +1,4 @@
-# Admitad Template for Google Tag Manager
+# Admitad Tracking Template for Google Tag Manager
 
 ## Table of contents
 
