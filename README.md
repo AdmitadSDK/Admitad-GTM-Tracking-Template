@@ -1,4 +1,4 @@
-# Admitad Tracking Template for Google Tag Manager
+# Admitad Template for Google Tag Manager
 
 ## Table of contents
 
@@ -10,7 +10,7 @@
 
 ## <a id="overview"></a>Overview
 
-Admitad Tracking Template for Google Tag Manager provides easy-driven integration with [Admitad](https://www.admitad.com/en/).  
+Admitad Template for Google Tag Manager provides easy-driven integration with [Admitad](https://www.admitad.com/en/).  
 This template tracks users’ actions on your website and sends the data to the Admitad statistics.  
 When the template fires, the Admitad server receives a request with the information on this action (order ID, order amount, etc.).
 
@@ -18,7 +18,7 @@ For more on the Admitad tracking code, see [here](https://help.admitad.com/en/ad
 
 ## <a id="contents"></a>Contents
 
-Admitad Tracking Template consists of two mandatory parts:
+Admitad Template for Google Tag Manager consists of two mandatory parts:
 * [Journey template](https://github.com/AdmitadSDK/Admitad-GTM-Journey-Template)
 * [Tracking template](https://github.com/AdmitadSDK/Admitad-GTM-Tracking-Template)
 
