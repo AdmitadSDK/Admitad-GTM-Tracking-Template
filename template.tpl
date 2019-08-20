@@ -418,14 +418,12 @@ if (positions) {
 
       const url = 'https://' + domain + '/tt?' + paramsList.join("&");
       logToConsole('sendPixel #', i, ': ', url);
-      sendPixel(url);
+      sendPixel(url, data.gtmOnSuccess, data.gtmOnFailure);
     });
   }
 }
 
-data.gtmOnSuccess();
-
 
 ___NOTES___
 
-Created on 19.08.2019, 10:43:37
+Created on 20.08.2019, 13:45:29
