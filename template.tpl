@@ -385,6 +385,24 @@ if (queryPermission('get_cookies', 'deduplication_cookie')) {
 
 
 let positions = data.transactionProducts;
+let numCallbacks = positions.length * pixelDomains.length; 
+let hasFailed = false;
+const processAsync = (succeeded) => {
+  if (hasFailed) {
+    return;
+  }
+
+  if (succeeded) {
+    numCallbacks--;
+    if (numCallbacks === 0) {
+      data.gtmOnSuccess();
+    }
+  } else {
+    hasFailed = true;
+    data.gtmOnFailure();
+  }
+};
+
 if (positions) {
   for (let i = 0; i < positions.length; ++i) {
     let params = {
@@ -418,7 +436,7 @@ if (positions) {
 
       const url = 'https://' + domain + '/tt?' + paramsList.join("&");
       logToConsole('sendPixel #', i, ': ', url);
-      sendPixel(url, data.gtmOnSuccess, data.gtmOnFailure);
+      sendPixel(url, () => processAsync(true), () => processAsync(false));
     });
   }
 }
@@ -426,4 +444,4 @@ if (positions) {
 
 ___NOTES___
 
-Created on 20.08.2019, 13:45:29
+Created on 26.08.2019, 12:34:30
