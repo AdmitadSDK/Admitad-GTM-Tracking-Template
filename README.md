@@ -54,9 +54,6 @@ Example of the dataLayer code (real code on your site may differ):
 let transactionProducts = [];
 let order_number = '#1';
 let promocode = 'my_promo'; 
-// SHA-256 hash of the current user's email 'test@email.com'
-// we strongly recommend using the standard SHA hashing
-let hashed_customer_id = '73062D872926C2A556F17B36F50E328DDF9BFF9D403939BD14B6C3B7F5A33FC2';
 
 // fill array of purchased items
 let cart = [];
