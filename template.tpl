@@ -1,8 +1,16 @@
-﻿___INFO___
+﻿___TERMS_OF_SERVICE___
+
+By creating or modifying this file you agree to Google Tag Manager's Community
+Template Gallery Developer Terms of Service available at
+https://developers.google.com/tag-manager/gallery-tos (or such other URL as
+Google may provide), as modified from time to time.
+
+___INFO___
 
 {
   "displayName": "Admitad Tracking",
   "description": "Admitad Template for Google Tag Manager provides easy-driven integration with Admitad.\nThis template tracks users’ actions on your website and sends the data to the Admitad statistics.",
+  "categories": ["AFFILIATE_MARKETING", "CONVERSION_TRACKING", "ATTRIBUTION"],
   "securityGroups": [],
   "id": "cvt_temp_public_id",
   "type": "TAG",
@@ -316,7 +324,7 @@ ___WEB_PERMISSIONS___
 
 ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
-/* 
+/*
 Admitad Tracking template
 Copyright © 2019, Admitad GmbH.
 Authors: Aleksandr Kolodkin, Maxim Smirnov
@@ -372,9 +380,9 @@ if (queryPermission('get_cookies', 'deduplication_cookie')) {
   } else {
     deduplication_cookie = undefined;
   }
-  
+
   switch (deduplication_cookie) {
-    case 'admitad': 
+    case 'admitad':
       broker = 'adm'; break;
     case undefined:
       broker = 'na'; break;
@@ -385,7 +393,7 @@ if (queryPermission('get_cookies', 'deduplication_cookie')) {
 
 
 let positions = data.transactionProducts;
-let numCallbacks = positions.length * pixelDomains.length; 
+let numCallbacks = positions.length * pixelDomains.length;
 let hasFailed = false;
 const processAsync = (succeeded) => {
   if (hasFailed) {
