@@ -86,7 +86,6 @@ dataLayer.push({
 
 Code annotations:
 * `suid` — [UUID4 identifier](https://tools.ietf.org/html/rfc4122)  
-* `hashed_customer_id` — a hashed ID of a user in your system (email, login, etc.). We `strongly recommend` using the standard SHA hashing
 * `user_agent` — the [User-Agent](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) from the browser global
 
 ### Google Tag Manager variables
