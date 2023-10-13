@@ -319,8 +319,11 @@ if (queryPermission('get_cookies', 'tagtag_aid')) {
 logToConsole('tagtag_uid from cookie =',tagtagUid);
 
 // create paid source cookie for attribution
-let additionalDedupArray = data.additionalDedupSources.split(',');
+let additionalDedupArray;
+if (data.additionalDedupSources) {
+additionalDedupArray = data.additionalDedupSources.split(',');
 logToConsole('Additional dedup parameters array is',additionalDedupArray.length,'values long:',additionalDedupArray);
+}
 let dedupParamName = data.dedupSource;
 let dedupSourceValue;
 if (queryPermission('get_url', 'query', dedupParamName)) {
@@ -393,7 +396,7 @@ if (cartType == 'positionbyposition') {
   positions = data.transactionProducts;
   logToConsole('Positions by positions',positions);
 } else if (cartType == 'totalcart' && data.orderAmount && data.orderNumber) {
-    let positions_total = {tariff: data.tariff, price: data.orderAmount, quantity: 1, currency_code: data.orderCurrency, sku: 'total_cart'};
+    let positions_total = {tariff: data.tariff, price: data.orderAmount, quantity: 1, priceCurrency: data.orderCurrency, sku: 'total_cart'};
     positions = [positions_total];
     logToConsole('Positions total cart',positions);
 } else {
@@ -809,4 +812,4 @@ scenarios: []
 
 ___NOTES___
 
-Created on 09.10.2023, 13:36:16
+Created on 13.10.2023, 15:46:16
