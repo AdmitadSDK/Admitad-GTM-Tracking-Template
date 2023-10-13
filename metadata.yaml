@@ -2,7 +2,7 @@ homepage: "https://www.admitad.com",
 documentation: "https://help.admitad.com/gb/advertiser/topic/pdbab741aa57046d5a9dd23af62bc3734",
 versions:
   # Latest version
-  - sha: 070e87ef2a0da44356c049b40b2361670328a142
+  - sha: 6d82eca47417243d26775fc474fcd812f96ef6c4
     changeNotes: Fixed a bug with currency and additional deduplication parameters
   # Older versions
   - sha: c50bf2a44f4b087b21df5fc43f0650947e023ddb
