@@ -2,9 +2,11 @@ homepage: "https://www.admitad.com",
 documentation: "https://help.admitad.com/gb/advertiser/topic/pdbab741aa57046d5a9dd23af62bc3734",
 versions:
   # Latest version
+  - sha: 5092a12e1ad959011cdcaa3c0ccf0266ca09fcdd
+    changeNotes: Added the option to add deduplication value other than ‘admitad’
+  # Older versions
   - sha: 6d82eca47417243d26775fc474fcd812f96ef6c4
     changeNotes: Fixed a bug with currency and additional deduplication parameters
-  # Older versions
   - sha: c50bf2a44f4b087b21df5fc43f0650947e023ddb
     changeNotes: Added the option to select the purchase transfer method (cart amount) for easier tracking setup and some required settings.
   - sha: 0b215ac74c0df08299b484863e6f2821d108fdc8
