@@ -210,6 +210,19 @@ ___TEMPLATE_PARAMETERS___
   },
   {
     "type": "TEXT",
+    "name": "dedupValue",
+    "displayName": "Admitad traffic unique value",
+    "simpleValueType": true,
+    "help": "Expected value of Last Paid Click URL Parameter for Admitad traffic. Default value is \u0027admitad\u0027",
+    "valueValidators": [
+      {
+        "type": "NON_EMPTY"
+      }
+    ],
+    "defaultValue": "admitad"
+  },
+  {
+    "type": "TEXT",
     "name": "cookieLifetime",
     "displayName": "Cookie lifetime (days)",
     "simpleValueType": true,
@@ -290,6 +303,7 @@ if (referrer !== undefined) {
     setCookie('referrer', referrer, cookieOptions);
   }
 }
+logToConsole('Domain for cookies =',data.mainDomain);
 
 // create Admitad click id cookie
 let tagtagUid;
@@ -379,7 +393,7 @@ if (queryPermission('get_cookies', 'deduplication_cookie')) {
     deduplication_cookie = undefined;
   }
   switch (deduplication_cookie) {
-    case 'admitad':
+    case data.dedupValue:
       broker = 'adm'; break;
     case undefined:
       broker = 'na'; break;
@@ -387,6 +401,7 @@ if (queryPermission('get_cookies', 'deduplication_cookie')) {
       broker = deduplication_cookie;
   }
 }
+logToConsole('Expected value of',dedupParamName,'is',data.dedupValue,', the broker is',broker);
 
 // working with cart and send requests
 let cartType = data.cartType;
